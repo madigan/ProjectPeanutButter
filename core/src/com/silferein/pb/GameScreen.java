@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 		
 		// Load Textures
 		background = new Texture(Gdx.files.internal("imgs/starfield.png"));
-
+		
 		//=== Game Logic Setup ===//
 		engine = new Engine();
 		engine.addSystem( new DebugSystem( camera, batch ) );
@@ -56,14 +56,14 @@ public class GameScreen implements Screen {
 		
 		// Draw things!
 		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
+		
 		// Draw background
+		batch.begin();
 		drawBackground();
+		batch.end();
 
 		// Update the game engines
 		engine.update( deltaTime );
-		
-		batch.end();
 	}
 
 	@Override
