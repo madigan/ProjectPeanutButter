@@ -2,15 +2,14 @@ package com.silferein.pb;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.silferein.pb.systems.BackgroundDrawingSystem;
 import com.silferein.pb.systems.DebugSystem;
 
 public class GameScreen implements Screen {
@@ -20,7 +19,6 @@ public class GameScreen implements Screen {
 	private Engine engine;
 	
 	private BitmapFont font;
-	private Texture background;
 
 	@Override
 	public void show() {
@@ -41,11 +39,9 @@ public class GameScreen implements Screen {
 		font = new BitmapFont();
 		generator.dispose();
 		
-		// Load Textures
-		background = new Texture(Gdx.files.internal("imgs/starfield.png"));
-		
 		//=== Game Logic Setup ===//
 		engine = new Engine();
+		engine.addSystem(new BackgroundDrawingSystem( camera, batch ));
 		engine.addSystem( new DebugSystem( camera, batch ) );
 	}
 
@@ -57,11 +53,6 @@ public class GameScreen implements Screen {
 		
 		// Draw things!
 		batch.setProjectionMatrix(camera.combined);
-		
-		// Draw background
-		batch.begin();
-		drawBackground();
-		batch.end();
 
 		// Update the game engines
 		engine.update( deltaTime );
@@ -93,27 +84,5 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
-	}
-	
-	/**
-	 * Draws the background.
-	 * TODO: Move this to some sort of engine in ashley?
-	 */
-	private void drawBackground() {
-		// To simplify the code a little, do these calculations ahead of time
-		// To speed things up, we might optimize this.
-		float cameraLeft = camera.position.x - camera.viewportWidth / 2f;
-		float cameraRight = camera.position.x + camera.viewportWidth / 2f;
-		float cameraTop = camera.position.y + camera.viewportHeight / 2f;
-		float cameraBottom = camera.position.y - camera.viewportHeight / 2f;
-		
-		float width = background.getWidth();
-		float height = background.getHeight();
-		
-		for(float column = (float) Math.floor(cameraLeft / width) * width; column < cameraRight; column += width) {
-			for(float row = (float) Math.floor(cameraBottom / height) * height; row < cameraTop; row += height) {
-				batch.draw(background, column, row);
-			}
-		}
 	}
 }
