@@ -17,4 +17,9 @@ public class TransformComponent implements Component {
 		this.y = y;
 		this.rotation = rotation;
 	}
+	
+	public void set(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
 }
