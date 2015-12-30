@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.silferein.pb.systems.BackgroundDrawingSystem;
 import com.silferein.pb.systems.DebugSystem;
+import com.silferein.pb.systems.TextureDrawingSystem;
 
 public class GameScreen implements Screen {
 	private OrthographicCamera camera;
@@ -41,8 +42,11 @@ public class GameScreen implements Screen {
 		
 		//=== Game Logic Setup ===//
 		engine = new Engine();
-		engine.addSystem(new BackgroundDrawingSystem( camera, batch ));
+		engine.addSystem( new BackgroundDrawingSystem( camera, batch ) );
+		engine.addSystem( new TextureDrawingSystem( batch ) );
 		engine.addSystem( new DebugSystem( camera, batch ) );
+		
+		engine.addEntity(EntityFactory.createEntity("asteroid"));
 	}
 
 	@Override
