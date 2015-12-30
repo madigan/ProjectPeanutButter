@@ -1,4 +1,4 @@
-package com.silferein.pb;
+package com.silferein.pb.systems;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
