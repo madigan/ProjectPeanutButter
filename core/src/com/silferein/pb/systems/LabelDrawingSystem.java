@@ -35,6 +35,6 @@ public class LabelDrawingSystem extends IteratingSystem {
 		TransformComponent transform = transformMapper.get(entity);
 		LabelComponent label = labelMapper.get(entity);
 		
-		font.draw(batch, label.label, transform.x, transform.y);
+		font.draw(batch, label.label, transform.position.x, transform.position.y);
 	}
 }

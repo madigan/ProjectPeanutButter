@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.silferein.pb.components.BoundsComponent;
 import com.silferein.pb.components.LabelComponent;
 import com.silferein.pb.components.MovementComponent;
@@ -26,18 +27,18 @@ public class EntityFactory {
 		
 		switch(tag) {
 		case "asteroid":
-			entity.add(new TransformComponent(0, 0, 30f));
+			entity.add(new TransformComponent(0, 0, MathUtils.random(0, 360)));
 			entity.add(new BoundsComponent(32f));
 			entity.add(new TextureComponent( new TextureRegion(new Texture(Gdx.files.internal("imgs/asteroid2.png"))) ));
-			entity.add(new MovementComponent(10f, 3f));
+			entity.add(new MovementComponent(MathUtils.random(20f, 40f), MathUtils.random(-20f, 20f)));
 			entity.add(new PhysicsComponent());
 			break;
 		case "player_ship":
 			entity.add(new TransformComponent(0, 0, 0));
-			entity.add(new BoundsComponent(128f, 128f));
+			entity.add(new BoundsComponent(100f, 100));
 			entity.add(new TextureComponent( new TextureRegion(new Texture(Gdx.files.internal("imgs/ship1.png"))) ));
 			entity.add(new LabelComponent("Fred"));
-			entity.add(new MovementComponent());
+			entity.add(new MovementComponent(0, 0));
 			entity.add(new PhysicsComponent());
 			break;
 		default:

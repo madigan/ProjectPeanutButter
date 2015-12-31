@@ -36,8 +36,8 @@ public class TextureDrawingSystem extends IteratingSystem {
 		TextureComponent texture = textureMapper.get(entity);
 		
 		batch.draw(	texture.texture, 
-					transform.x, transform.y, 
-					bounds.width / 2, bounds.height / 2, 
+					transform.position.x - bounds.width / 2, transform.position.y - bounds.height / 2, 
+					bounds.width / 2, bounds.height / 2,
 					bounds.width, bounds.height, 
 					1.0f, 1.0f, 
 					transform.rotation );
