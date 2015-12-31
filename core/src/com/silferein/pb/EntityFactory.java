@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.silferein.pb.components.BoundsComponent;
 import com.silferein.pb.components.LabelComponent;
+import com.silferein.pb.components.MovementComponent;
+import com.silferein.pb.components.PhysicsComponent;
 import com.silferein.pb.components.TextureComponent;
 import com.silferein.pb.components.TransformComponent;
 
@@ -24,15 +26,20 @@ public class EntityFactory {
 		
 		switch(tag) {
 		case "asteroid":
-			entity.add(new TransformComponent(0, 0, 0));
-			entity.add(new BoundsComponent(64f, 64f));
+			entity.add(new TransformComponent(0, 0, 30f));
+			entity.add(new BoundsComponent(32f));
 			entity.add(new TextureComponent( new TextureRegion(new Texture(Gdx.files.internal("imgs/asteroid2.png"))) ));
+			entity.add(new MovementComponent(10f, 3f));
+			entity.add(new PhysicsComponent());
 			break;
 		case "player_ship":
 			entity.add(new TransformComponent(0, 0, 0));
-			entity.add(new BoundsComponent(64f, 64f));
+			entity.add(new BoundsComponent(128f, 128f));
 			entity.add(new TextureComponent( new TextureRegion(new Texture(Gdx.files.internal("imgs/ship1.png"))) ));
 			entity.add(new LabelComponent("Fred"));
+			entity.add(new MovementComponent());
+			entity.add(new PhysicsComponent());
+			break;
 		default:
 			//TODO: Decide what to do if a bad tag is passed. Do we break?
 			Gdx.app.error("EntityFactory", String.format("Unknown tag '%s'.", tag));

@@ -37,7 +37,7 @@ public class TextureDrawingSystem extends IteratingSystem {
 		
 		batch.draw(	texture.texture, 
 					transform.x, transform.y, 
-					transform.x, transform.y, 
+					bounds.width / 2, bounds.height / 2, 
 					bounds.width, bounds.height, 
 					1.0f, 1.0f, 
 					transform.rotation );
