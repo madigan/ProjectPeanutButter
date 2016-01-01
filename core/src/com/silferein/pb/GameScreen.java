@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -32,7 +33,7 @@ public class GameScreen implements Screen {
 	public void show() {
 		//=== libGDX Setup ===//
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+		camera.position.set(0, 0, 0); // Set the *center* of the camera at the center of the world.
 		camera.update();
 		
 		batch = new SpriteBatch();
@@ -62,8 +63,12 @@ public class GameScreen implements Screen {
 		
 		engine.addSystem( new DebugSystem( camera, batch ) );
 		
-		engine.addEntity(EntityFactory.createEntityAt("asteroid", 500f, 100f));
-		engine.addEntity(EntityFactory.createEntityAt("player_ship", 200f, 200f));
+		// Create 10 asteroids
+		for(int i = 0; i < 10; i ++) {
+			Vector2 position = new Vector2().setToRandomDirection().scl(MathUtils.random(300f,  500f));
+			engine.addEntity(EntityFactory.createEntityAt("asteroid", position.x, position.y));
+		}
+		engine.addEntity(EntityFactory.createEntityAt("player_ship", 0, 0));
 	}
 	Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 	
