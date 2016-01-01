@@ -82,9 +82,9 @@ public class PhysicsSystem extends IntervalIteratingSystem implements EntityList
 			
 			FixtureDef fixtureDef = new FixtureDef();
 			fixtureDef.shape = shape;
-			fixtureDef.density = 0.5f;		//TODO: Abstract this into physics component
-			fixtureDef.friction = 0.1f;		//TODO: Abstract this into physics component
-			fixtureDef.restitution = 0.6f;	//TODO: Abstract this into physics component
+			fixtureDef.density = physics.density;
+			fixtureDef.friction = physics.friction;
+			fixtureDef.restitution = physics.restitution;
 			
 			body.createFixture(fixtureDef);
 			bodyMap.put(entity, body);
