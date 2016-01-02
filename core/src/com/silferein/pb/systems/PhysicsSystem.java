@@ -31,7 +31,6 @@ public class PhysicsSystem extends IntervalIteratingSystem implements EntityList
 	private ComponentMapper<MovementComponent> movementMapper = ComponentMapper.getFor(MovementComponent.class);
 
 	private World world;
-	private Map<Entity, Body> bodyMap;
 	
 	// TODO: Abstract this to a settings file
 	private int velocityIterations = 3;
@@ -42,10 +41,7 @@ public class PhysicsSystem extends IntervalIteratingSystem implements EntityList
 	
 	public PhysicsSystem(World world, float interval) {
 		super(Family.all(PhysicsComponent.class, TransformComponent.class, BoundsComponent.class, MovementComponent.class).get(), interval);
-		
 		this.world = world;
-		this.bodyMap = new HashMap<Entity, Body>();
-		
 		this.interval = interval;
 		
 		Box2D.init();
@@ -87,7 +83,7 @@ public class PhysicsSystem extends IntervalIteratingSystem implements EntityList
 			fixtureDef.restitution = physics.restitution;
 			
 			body.createFixture(fixtureDef);
-			bodyMap.put(entity, body);
+			physics.body = body;
 			shape.dispose();
 			
 			body.setAngularVelocity(movement.angularSpeed * MathUtils.degreesToRadians);
@@ -98,9 +94,8 @@ public class PhysicsSystem extends IntervalIteratingSystem implements EntityList
 	@Override
 	public void entityRemoved(Entity entity) {
 		PhysicsComponent physics = physicsMapper.get(entity);
-		if(physics != null) {
-			world.destroyBody(bodyMap.get(entity));
-		}
+		world.destroyBody(physics.body);
+		physics.body = null;
 	}
 	
 	@Override
@@ -112,8 +107,9 @@ public class PhysicsSystem extends IntervalIteratingSystem implements EntityList
 	@Override
 	protected void processEntity(Entity entity) {
 		TransformComponent transform = transformMapper.get(entity);
+		PhysicsComponent physics = physicsMapper.get(entity);
 		
-		Body body = bodyMap.get(entity);
+		Body body = physics.body;
 		transform.position = body.getPosition().cpy();
 		transform.rotation = MathUtils.radiansToDegrees * body.getAngle();
 	}

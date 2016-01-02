@@ -9,6 +9,7 @@ import com.silferein.pb.components.BoundsComponent;
 import com.silferein.pb.components.LabelComponent;
 import com.silferein.pb.components.MovementComponent;
 import com.silferein.pb.components.PhysicsComponent;
+import com.silferein.pb.components.PlayerComponent;
 import com.silferein.pb.components.TextureComponent;
 import com.silferein.pb.components.TransformComponent;
 
@@ -40,6 +41,7 @@ public class EntityFactory {
 			entity.add(new LabelComponent("Fred"));
 			entity.add(new MovementComponent(0, 0));
 			entity.add(new PhysicsComponent());
+			entity.add(new PlayerComponent());
 			break;
 		default:
 			//TODO: Decide what to do if a bad tag is passed. Do we break?

@@ -18,6 +18,7 @@ import com.silferein.pb.systems.BackgroundDrawingSystem;
 import com.silferein.pb.systems.DebugSystem;
 import com.silferein.pb.systems.LabelDrawingSystem;
 import com.silferein.pb.systems.PhysicsSystem;
+import com.silferein.pb.systems.PlayerShipControlSystem;
 import com.silferein.pb.systems.TextureDrawingSystem;
 
 public class GameScreen implements Screen {
@@ -56,6 +57,7 @@ public class GameScreen implements Screen {
 		PhysicsSystem physics = new PhysicsSystem(world, 1/60f); // TODO: Abstract constant
 		engine.addSystem( physics );
 		engine.addEntityListener( physics );
+		engine.addSystem( new PlayerShipControlSystem());
 		
 		engine.addSystem( new BackgroundDrawingSystem( camera, batch ) );
 		engine.addSystem( new TextureDrawingSystem( batch ) );
