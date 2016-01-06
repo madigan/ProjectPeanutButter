@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.silferein.pb.systems.BackgroundDrawingSystem;
 import com.silferein.pb.systems.DebugSystem;
 import com.silferein.pb.systems.LabelDrawingSystem;
+import com.silferein.pb.systems.MovementSystem;
 import com.silferein.pb.systems.PhysicsSystem;
 import com.silferein.pb.systems.PlayerShipControlSystem;
 import com.silferein.pb.systems.TextureDrawingSystem;
@@ -33,7 +34,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		//=== libGDX Setup ===//
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera = new OrthographicCamera(80f, 60f);
 		camera.position.set(0, 0, 0); // Set the *center* of the camera at the center of the world.
 		camera.update();
 		
@@ -44,9 +45,8 @@ public class GameScreen implements Screen {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Smokum-Regular.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
-		parameter.size = 8;
-		//font = generator.generateFont(parameter);
-		font = new BitmapFont();
+		parameter.size = 18;
+		font = generator.generateFont(parameter);
 		generator.dispose();
 		
 		//=== Game Physics Setup ===//
@@ -54,9 +54,10 @@ public class GameScreen implements Screen {
 		
 		//=== Game Logic Setup ===//
 		engine = new PooledEngine();
-		PhysicsSystem physics = new PhysicsSystem(world, 1/60f); // TODO: Abstract constant
+		PhysicsSystem physics = new PhysicsSystem(world, Constants.PHYSICS_STEP);
 		engine.addSystem( physics );
 		engine.addEntityListener( physics );
+		engine.addSystem( new MovementSystem() );
 		engine.addSystem( new PlayerShipControlSystem());
 		
 		engine.addSystem( new BackgroundDrawingSystem( camera, batch ) );
@@ -65,9 +66,9 @@ public class GameScreen implements Screen {
 		
 		engine.addSystem( new DebugSystem( camera, batch ) );
 		
-		// Create 10 asteroids
-		for(int i = 0; i < 10; i ++) {
-			Vector2 position = new Vector2().setToRandomDirection().scl(MathUtils.random(300f,  500f));
+		// Create 50 asteroids
+		for(int i = 0; i < 50; i ++) {
+			Vector2 position = new Vector2().setToRandomDirection().scl(MathUtils.random(20f,  40f));
 			engine.addEntity(EntityFactory.createEntityAt("asteroid", position.x, position.y));
 		}
 		engine.addEntity(EntityFactory.createEntityAt("player_ship", 0, 0));

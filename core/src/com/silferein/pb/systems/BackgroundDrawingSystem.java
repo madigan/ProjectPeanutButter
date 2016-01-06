@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.silferein.pb.Constants;
 
 public class BackgroundDrawingSystem extends EntitySystem {
 	private SpriteBatch batch;
@@ -28,13 +29,13 @@ public class BackgroundDrawingSystem extends EntitySystem {
 		float cameraTop = camera.position.y + camera.viewportHeight / 2f;
 		float cameraBottom = camera.position.y - camera.viewportHeight / 2f;
 		
-		float width = background.getWidth();
-		float height = background.getHeight();
+		float width = Constants.BACKGROUND_SIZE.x;
+		float height = Constants.BACKGROUND_SIZE.y;
 		
 		batch.begin();
 		for(float column = (float) Math.floor(cameraLeft / width) * width; column < cameraRight; column += width) {
 			for(float row = (float) Math.floor(cameraBottom / height) * height; row < cameraTop; row += height) {
-				batch.draw(background, column, row);
+				batch.draw(background, column, row, width, height);
 			}
 		}
 		batch.end();

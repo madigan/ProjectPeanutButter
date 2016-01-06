@@ -83,6 +83,7 @@ public class PhysicsSystem extends IntervalIteratingSystem implements EntityList
 			fixtureDef.restitution = physics.restitution;
 			
 			body.createFixture(fixtureDef);
+			body.setAngularDamping(1.0f);
 			physics.body = body;
 			shape.dispose();
 			
@@ -108,10 +109,13 @@ public class PhysicsSystem extends IntervalIteratingSystem implements EntityList
 	protected void processEntity(Entity entity) {
 		TransformComponent transform = transformMapper.get(entity);
 		PhysicsComponent physics = physicsMapper.get(entity);
+		MovementComponent movement = movementMapper.get(entity);
 		
 		Body body = physics.body;
 		transform.position = body.getPosition().cpy();
 		transform.rotation = MathUtils.radiansToDegrees * body.getAngle();
+		movement.speed = body.getLinearVelocity().len();
+		movement.angularSpeed = body.getAngularVelocity();
 	}
 	
 }
